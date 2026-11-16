@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LLM Coding Harness</title>
+  <!-- mammoth: .docx → HTML -->
+<script src="https://cdn.jsdelivr.net/npm/mammoth@1.8.0/mammoth.browser.min.js"></script>
+<!-- pdf.js: .pdf → text -->
+<script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@4.8.69/build/pdf.min.mjs" type="module"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body onload="init()">
+
+  <header>
+    <h1>⚙ <span>LLM</span> Coding Harness</h1>
+    <div class="header-actions">
+      <select id="model-select" title="Model"></select>
+      <button class="btn btn-outline" id="new-chat-btn">New Chat</button>
+    </div>
+  </header>
+
+  <!-- Parameters panel -->
+  <div class="params-row">
+    <button class="btn btn-outline" id="params-toggle">⚙ Parameters</button>
+    <div class="params-panel" id="params-panel" hidden>
+      <div class="param-group">
+        <label for="param-num-ctx">Context window</label>
+        <input type="number" id="param-num-ctx" value="32768" min="256" max="131072" step="256" />
+        <span class="param-unit">tokens</span>
+      </div>
+      <div class="param-group">
+        <label for="param-temperature">Temperature</label>
+        <input type="number" id="param-temperature" value="0.7" min="0" max="2" step="0.1" />
+      </div>
+      <div class="param-group">
+        <label for="param-num-predict">Max output</label>
+        <input type="number" id="param-num-predict" value="4096" min="1" max="131072" step="128" />
+        <span class="param-unit">tokens</span>
+      </div>
+      <div class="param-group">
+        <label for="param-thinking">Thinking</label>
+        <select id="param-thinking">
+          <option value=false>Off</option>
+          <option value=true>On</option>
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+        </select>
+      </div>
+      <div class="param-group">
+        <label for="param-tools">MCP tools</label>
+        <select id="param-tools">
+          <option value="on">On</option>
+          <option value="off">Off</option>
+        </select>
+        <span class="param-unit" id="tools-info">loading…</span>
+      </div>
+      <div class="param-group">
+        <label for="param-tool-limit">Tool result limit</label>
+        <input type="number" id="param-tool-limit" value="8000" min="500" max="200000" step="500" />
+        <span class="param-unit">chars</span>
+      </div>
+      <div class="param-group" id="servers-group" hidden>
+        <label>Servers</label>
+        <span id="servers-box" class="servers-box"></span>
+      </div>
+    </div>
+  </div>
+
+  <main>
+
+    <!-- File tray -->
+    <div class="file-tray">
+      <div class="file-tray-header">
+        <label>Attached files</label>
+        <button class="btn btn-outline" id="add-files-btn" style="padding:4px 12px;font-size:0.82rem;">+ Add Files</button>
+        <input type="file" id="file-input" multiple hidden />
+      </div>
+      <div class="drop-zone" id="drop-zone">
+        <div id="file-list"></div>
+      </div>
+    </div>
+
+    <!-- Prompt + Send -->
+    <div class="prompt-row">
+      <textarea id="prompt-input" placeholder="Talk with Chat LMC here..." rows="2"></textarea>
+      <button class="btn" id="send-btn">Send</button>
+    </div>
+
+    <!-- Conversation -->
+    <div class="response-pane" id="response-pane"></div>
+
+  </main>
+
+  <footer>
+    <span id="status-line">Ready</span>
+    <span id="ctx-meter" class="ctx-meter" title="How full the model's context window was on the last request"></span>
+    <span id="char-count">0 chars in next request</span>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

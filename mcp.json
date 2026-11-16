@@ -1,0 +1,28 @@
+{
+  "mcpServers": {
+    "chtter": {
+      "command": "node",
+      "args": [
+        "C:\\Users\\lchin\\Documents\\Chtter-Redux\\Chtter-MCP\\chtter.js"
+      ]
+    },
+    "database": {
+      "command": "node",
+      "args": [
+        "C:\\Users\\lchin\\Documents\\Chtter-Redux\\Chtter-MCP\\mySQL.js"
+      ]
+    },
+    "gmail": {
+      "command": "node",
+      "args": [
+        "C:\\Users\\lchin\\Documents\\Chtter-Redux\\Chtter-MCP\\index.js"
+      ]
+    },
+    "slack": {
+      "command": "node",
+      "args": [
+        "C:\\Users\\lchin\\Documents\\Chtter-Redux\\Chtter-MCP\\slack.js"
+      ]
+    }
+  }
+}
